@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AraanCo Link Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="icon32.png" alt="" width="28" height="28"><div><h1>AraanCo Link Manager</h1><small data-i18n="subtitle">Link management · v1.2</small></div></div>
+    <div class="header-controls">
+      <select id="languageSelect" aria-label="Language" title="Language" data-i18n-aria-label="languageLabel" data-i18n-title="languageLabel">
+        <option value="en">English</option>
+        <option value="fa">فارسی</option>
+      </select>
+      <button id="themeBtn" class="icon-btn" title="Toggle light / dark mode" data-i18n-title="themeToggle" data-i18n-aria-label="themeToggle" aria-label="Toggle light / dark mode" type="button">☾</button>
+    </div>
+  </header>
+  <main>
+    <p id="message" role="status" aria-live="polite" class="message" hidden></p>
+    <section class="panel">
+      <div class="section-heading"><strong data-i18n="newLink">New link</strong><button id="currentTabBtn" class="text-btn" type="button" data-i18n="currentTab">+ Current tab</button></div>
+      <form id="addForm" autocomplete="off">
+        <input id="titleInput" type="text" maxlength="150" placeholder="Link title (e.g. Zabbix)" data-i18n-placeholder="titlePlaceholder" required>
+        <input id="urlInput" type="text" dir="ltr" maxlength="2000" placeholder="https://example.com" required>
+        <input id="categoryInput" type="text" maxlength="90" list="categoryList" placeholder="Category (optional)" data-i18n-placeholder="categoryPlaceholder">
+        <datalist id="categoryList"></datalist>
+        <button class="primary-btn" id="addBtn" type="submit" data-i18n="addLink">+ Add link</button>
+      </form>
+    </section>
+    <section class="toolbar">
+      <input id="searchInput" type="search" placeholder="Search links and categories…" data-i18n-placeholder="searchPlaceholder" aria-label="Search links and categories" data-i18n-aria-label="searchLabel">
+      <span id="totalCount" class="counter"></span>
+    </section>
+    <div id="categoriesContainer" aria-live="polite"></div>
+    <section class="panel settings">
+      <div class="section-heading"><strong data-i18n="backupSync">Backup &amp; sync</strong></div>
+      <label class="sync-toggle"><input id="syncToggle" type="checkbox"><span data-i18n="syncToggle">Sync with Chrome Sync</span></label>
+      <p class="help" data-i18n="syncHelp">When Chrome Sync is enabled for your Google account, links can sync across installations of this extension with the same ID.</p>
+      <div id="syncStatus" class="sync-status" role="status"></div>
+      <div class="actions">
+        <button type="button" id="retrySyncBtn" class="secondary-btn" data-i18n="retrySync">Sync again</button>
+        <button type="button" id="exportBtn" class="secondary-btn" data-i18n="exportJson">Export JSON</button>
+        <button type="button" id="importBtn" class="secondary-btn" data-i18n="importJson">Import JSON</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </div>
+      <p class="help" data-i18n="syncPrivacy">Sync is not a backup. Internal or private URLs will also be stored in your Google account’s Chrome Sync data.</p>
+    </section>
+  </main>
+  <dialog id="editDialog">
+    <form id="editForm" autocomplete="off">
+      <h2 data-i18n="editLink">Edit link</h2>
+      <input id="editTitle" maxlength="150" placeholder="Title" data-i18n-placeholder="editTitle" required>
+      <input id="editUrl" dir="ltr" maxlength="2000" placeholder="URL" data-i18n-placeholder="editUrl" required>
+      <input id="editCategory" maxlength="90" placeholder="Category" data-i18n-placeholder="editCategory">
+      <div class="dialog-buttons"><button id="cancelEditBtn" type="button" class="secondary-btn" data-i18n="cancel">Cancel</button><button type="submit" class="primary-btn" data-i18n="saveChanges">Save changes</button></div>
+    </form>
+  </dialog>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

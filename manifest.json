@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "AraanCo Link Manager",
+  "version": "1.2.0",
+  "description": "Save, organize, search, back up, and optionally sync links across devices. English and Persian interface.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiHa8eJ4SbWV8I3CqwBaHvvB1HOQkU8dOezkIcLMsQWlYdQnt7Ev/KO3M9EHEq+Xgc0OOwED0qU+U1RvepJPmEV9OuYwdw0oqmDVzQ9Rhv1JbHi8U4VpzDGZ0Tken+HvTbw8YctH15N2nDj6EZhvfK2xYrIqUsISBHImntAAEpKS1oTeI7wy00cLeyGWAWfqIqEfVu6sVsbyi7U/2Bvu7ReN2HQjqwGYuQQrzt+9zAZYvNqP9RKX07MPYDB3VznVlUVVxI9GtrAI+nzi/5mgpf8dDzK6fuWdWMe45uZPHa0N7llNnBL0BEgjFn5mUvk1hVAz6OwFpHGxXFVY2Ysjk/QIDAQAB"
+}
