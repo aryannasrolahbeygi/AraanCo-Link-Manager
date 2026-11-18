@@ -18,6 +18,7 @@ let openCategories = new Set();
 let showMessageTimer = null;
 let language = DEFAULT_LANGUAGE;
 let isInitialized = false;
+let dragState = null; // Drag only by the handle and only within one category.
 
 const t = (key, params) => translate(language, key, params);
 const errorText = error => translateError(language, error);
@@ -97,6 +98,7 @@ function render(links, status) {
     else openCategories.delete(details.dataset.category);
   }
   categoriesContainer.replaceChildren();
+  dragState = null;
   const needle = searchTerm.toLocaleLowerCase();
   let visible = 0;
   for (const category of sortedCategories) {
@@ -124,6 +126,65 @@ function render(links, status) {
     const ul = document.createElement('ul'); ul.className = 'links-list';
     for (const link of found) {
       const li = document.createElement('li');
+      li.dataset.linkId = link.id;
+      const handle = document.createElement('button');
+      handle.type = 'button';
+      handle.className = 'drag-handle';
+      handle.textContent = '⠿';
+      handle.disabled = Boolean(needle);
+      handle.draggable = !needle;
+      handle.title = t(needle ? 'reorderSearchDisabled' : 'reorderHandle', {title:link.title});
+      handle.setAttribute('aria-label', handle.title);
+      handle.addEventListener('dragstart', event => {
+        if (needle) { event.preventDefault(); return; }
+        dragState = {id:link.id, category};
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', link.id);
+        li.classList.add('dragging');
+      });
+      handle.addEventListener('dragend', () => {
+        dragState = null;
+        for (const node of categoriesContainer.querySelectorAll('.dragging, .drop-before, .drop-after')) {
+          node.classList.remove('dragging', 'drop-before', 'drop-after');
+        }
+      });
+      // Keyboard-accessible equivalent to drag & drop.
+      handle.addEventListener('keydown', async event => {
+        if (needle || !['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        const index = group.findIndex(item => item.id === link.id);
+        const target = group[index + (event.key === 'ArrowUp' ? -1 : 1)];
+        if (!target) return;
+        event.preventDefault();
+        try {
+          const changed = await store.moveWithinCategory(category, link.id, target.id, event.key === 'ArrowDown');
+          if (changed) {
+            categoriesContainer.querySelector(`[data-link-id="${link.id}"] .drag-handle`)?.focus();
+            message(t('orderSaved'));
+          }
+        } catch (error) { message(errorText(error), true); }
+      });
+      li.addEventListener('dragover', event => {
+        if (needle || !dragState || dragState.category !== category || dragState.id === link.id) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        const after = event.clientY > li.getBoundingClientRect().top + li.offsetHeight / 2;
+        li.classList.toggle('drop-before', !after);
+        li.classList.toggle('drop-after', after);
+      });
+      li.addEventListener('dragleave', () => li.classList.remove('drop-before', 'drop-after'));
+      li.addEventListener('drop', async event => {
+        if (needle || !dragState || dragState.category !== category || dragState.id === link.id) return;
+        event.preventDefault();
+        const movedId = dragState.id;
+        const after = event.clientY > li.getBoundingClientRect().top + li.offsetHeight / 2;
+        dragState = null;
+        li.classList.remove('drop-before', 'drop-after');
+        try {
+          const changed = await store.moveWithinCategory(category, movedId, link.id, after);
+          if (changed) message(t('orderSaved'));
+        } catch(error) { message(errorText(error), true); }
+      });
+      li.appendChild(handle);
       const a = document.createElement('a');
       a.href = link.url; a.title = link.url; a.textContent = link.title;
       a.className = 'link-title'; a.rel = 'noopener noreferrer'; a.target = '_blank';
