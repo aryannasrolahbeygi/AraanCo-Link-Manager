@@ -7,7 +7,7 @@ export const LANGUAGES = Object.freeze(['en', 'fa']);
 export const MESSAGES = Object.freeze({
   en: {
     languageLabel: 'Language',
-    subtitle: 'Link management · v1.2',
+    subtitle: 'Link management · v1.3',
     themeToggle: 'Toggle light / dark mode',
     newLink: 'New link',
     currentTab: '+ Current tab',
@@ -30,6 +30,9 @@ export const MESSAGES = Object.freeze({
     cancel: 'Cancel',
     saveChanges: 'Save changes',
     openAll: 'Open all',
+    reorderHandle: 'Drag to reorder {title}. Use up/down arrow keys to move.',
+    reorderSearchDisabled: 'Clear search to reorder links.',
+    orderSaved: 'Link order saved.',
     edit: 'Edit',
     delete: 'Delete',
     defaultCategory: 'Other links',
@@ -75,7 +78,7 @@ export const MESSAGES = Object.freeze({
   },
   fa: {
     languageLabel: 'زبان',
-    subtitle: 'مدیریت لینک‌ها · نسخه ۱.۲',
+    subtitle: 'مدیریت لینک‌ها · نسخه ۱.۳',
     themeToggle: 'تغییر حالت روشن/تاریک',
     newLink: 'لینک جدید',
     currentTab: '+ تب فعلی',
@@ -98,6 +101,9 @@ export const MESSAGES = Object.freeze({
     cancel: 'انصراف',
     saveChanges: 'ذخیره تغییرات',
     openAll: 'باز کردن همه',
+    reorderHandle: 'برای مرتب‌سازی «{title}» بکشید؛ با کلیدهای بالا و پایین هم می‌توانید جابه‌جا کنید.',
+    reorderSearchDisabled: 'برای مرتب‌سازی لینک‌ها ابتدا جست‌وجو را پاک کنید.',
+    orderSaved: 'ترتیب لینک‌ها ذخیره شد.',
     edit: 'ویرایش',
     delete: 'حذف',
     defaultCategory: 'سایر لینک‌ها',
