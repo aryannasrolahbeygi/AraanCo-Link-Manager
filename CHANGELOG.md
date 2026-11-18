@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0] - 2026-11-19
+
+- Drag links by the grip handle to reorder them within their category.
+- Added accessible arrow-key reordering (focus the handle, press Up/Down).
+- Ordering is saved locally and optionally synced across devices with Chrome Sync.
+- Older v1.2 link records stay intact; first reorder initializes ordering for that category.
+- Moving links to a different category places them at the end if that category is ordered.
+- JSON exports preserve the visible link order for fresh restores.
+- Reordering is disabled while search is active to prevent hidden-item surprises.
+
 ## [1.2.0] - 2026-11-17
 
 - Added English as the default UI language and optional Persian (فارسی).
