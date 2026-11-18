@@ -3,7 +3,7 @@
 **A lightweight, free, open-source Chrome link organizer — English & فارسی, offline-first, with optional Chrome Sync.**
 
 ![Chrome Extension](https://img.shields.io/badge/Chrome-Manifest%20V3-087f5b)
-![Version](https://img.shields.io/badge/version-1.2.0-006b70)
+![Version](https://img.shields.io/badge/version-1.3.0-006b70)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 <p align="center"><img src="icon128.png" alt="AraanCo Link Manager" width="128"></p>
@@ -17,6 +17,7 @@ AraanCo Link Manager is a **local-first** Chrome extension for storing and organ
 ### Features
 
 - Add, edit, delete, categorize and search links
+- Drag links by the ⠿ handle to reorder them within each category (or use Up/Down arrow keys on the handle)
 - Add the current Chrome tab to the form in one click
 - Open links or all links in a category (with safeguards for many tabs)
 - Check for duplicates and reject unsupported or unsafe URL schemes
@@ -70,6 +71,7 @@ Chrome Manifest V3 · JavaScript modules · English and Persian translations · 
 ### امکانات
 
 - افزودن، ویرایش و حذف لینک‌ها و دسته‌بندی آن‌ها
+- تغییر ترتیب لینک‌های هر دسته با Drag & Drop روی علامت ⠿، همراه با ذخیره و همگام‌سازی ترتیب
 - جست‌وجوی سریع و افزودن تب فعلی مرورگر
 - ذخیره نسخه پشتیبان و بازیابی از فایل JSON
 - تشخیص لینک تکراری و اعتبارسنجی نشانی‌ها
