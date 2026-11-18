@@ -117,3 +117,81 @@ assert.ok(c.status().error);
 // Same-ID record comparison and tombstone remain stable.
 assert.equal(cloud.data[ITEM_PREFIX+bz.id].deleted,true);
 console.log('PASS: URL validation, legacy migration, cross-device add/edit/delete, tombstones, offline edits, JSON import/export, duplicate control, sync failure fallback');
+
+
+// v1.3: first reorder migrates only this category, with IDs and URLs intact.
+const cat = 'Ordered test group';
+for (const [title, url] of [['Gamma','https://gamma.example'], ['Alpha','https://alpha.example'], ['Beta','https://beta.example']]) {
+  await a.add({title,url,category:cat});
+}
+await settle(a,b);
+const titles = store => store.snapshot().filter(link => link.category === cat).map(link => link.title);
+const record = title => a.snapshot().find(link => link.category === cat && link.title === title);
+assert.deepEqual(titles(a), ['Alpha','Beta','Gamma']);
+const ids = Object.fromEntries(['Alpha','Beta','Gamma'].map(title=>[title,record(title).id]));
+assert.equal(await a.moveWithinCategory(cat,ids.Gamma,ids.Alpha,false),true);
+await settle(a,b);
+assert.deepEqual(titles(a),['Gamma','Alpha','Beta']);
+assert.deepEqual(titles(b),titles(a));
+const firstRanks = a.snapshot().filter(link=>link.category===cat);
+assert.ok(firstRanks.every(link=>Number.isFinite(link.position)));
+assert.deepEqual(Object.fromEntries(firstRanks.map(x=>[x.title,x.id])),ids);
+
+// Subsequent moves edit only one record, avoiding a full-category rewrite.
+const beforeMove = new Map(firstRanks.map(link=>[link.id,link.updatedAt]));
+assert.equal(await a.moveWithinCategory(cat,ids.Beta,ids.Gamma,false),true);
+await settle(a,b);
+assert.deepEqual(titles(a), ['Beta','Gamma','Alpha']);
+assert.deepEqual(titles(b),titles(a));
+assert.ok(a.records.get(ids.Beta).updatedAt > beforeMove.get(ids.Beta));
+assert.equal(a.records.get(ids.Gamma).updatedAt,beforeMove.get(ids.Gamma));
+assert.equal(a.records.get(ids.Alpha).updatedAt,beforeMove.get(ids.Alpha));
+assert.equal(await a.moveWithinCategory(cat,ids.Beta,ids.Gamma,false),false); // no-op
+await assert.rejects(a.moveWithinCategory(cat,ids.Beta,bz.id,false),/پیدا نشد/);
+
+// Edits retain position; additional records in an ordered category append.
+await a.edit(ids.Gamma,{title:'Gamma renamed',url:'https://gamma.example',category:cat});
+await settle(a,b);
+assert.deepEqual(titles(b),['Beta','Gamma renamed','Alpha']);
+await b.add({title:'A-new',url:'https://another.example',category:cat});
+await settle(a,b);
+assert.deepEqual(titles(a),['Beta','Gamma renamed','Alpha','A-new']);
+
+// Offline reorder survives reconciliation once Chrome Sync is reenabled.
+await b.toggleSync(false);
+await b.moveWithinCategory(cat,ids.Alpha,ids.Beta,false);
+await settle(a,b);
+assert.notDeepEqual(titles(a),titles(b));
+await b.toggleSync(true);
+await settle(a,b);
+assert.deepEqual(titles(a),titles(b));
+assert.deepEqual(titles(a),['Alpha','Beta','Gamma renamed','A-new']);
+
+// A JSON backup carries the visible order to a fresh (offline) installation.
+const backup=a.exportData();
+const fresh=new LinkStore(makeApi());
+await fresh.init();
+const recovered=await fresh.importData(backup);
+assert.equal(recovered.skipped,0);
+assert.deepEqual(titles(fresh), titles(a));
+assert.deepEqual(new Set(fresh.snapshot().map(x=>x.url)),new Set(a.snapshot().map(x=>x.url)));
+
+// Separate categories maintain their own ordering; moving a record between
+// categories does not disturb other category records or the old category.
+const otherCat='Other ordered group';
+await a.add({title:'One',url:'https://one.example',category:otherCat});
+await a.add({title:'Two',url:'https://two.example',category:otherCat});
+await settle(a,b);
+const one=a.snapshot().find(x=>x.title==='One');
+const two=a.snapshot().find(x=>x.title==='Two');
+await a.moveWithinCategory(otherCat,two.id,one.id,false);
+await settle(a,b);
+assert.deepEqual(a.snapshot().filter(x=>x.category===otherCat).map(x=>x.title),['Two','One']);
+await a.edit(ids.Alpha,{title:'Alpha',url:'https://alpha.example',category:otherCat});
+await settle(a,b);
+assert.deepEqual(a.snapshot().filter(x=>x.category===otherCat).map(x=>x.title),['Two','One','Alpha']);
+assert.deepEqual(titles(a),['Beta','Gamma renamed','A-new']);
+assert.deepEqual(titles(a),titles(b));
+
+fresh.destroy();a.destroy();b.destroy();c.destroy();
+console.log('PASS: category-scoped drag order, sparse updates, sync/offline convergence, add/edit, backup restore');
