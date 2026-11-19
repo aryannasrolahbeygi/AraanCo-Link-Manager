@@ -3,7 +3,7 @@
 **A lightweight, free, open-source Chrome link organizer — English & فارسی, offline-first, with optional Chrome Sync.**
 
 ![Chrome Extension](https://img.shields.io/badge/Chrome-Manifest%20V3-087f5b)
-![Version](https://img.shields.io/badge/version-1.3.0-006b70)
+![Version](https://img.shields.io/badge/version-1.4.0-006b70)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 <p align="center"><img src="icon128.png" alt="AraanCo Link Manager" width="128"></p>
@@ -15,6 +15,8 @@
 AraanCo Link Manager is a **local-first** Chrome extension for storing and organizing your favorite or frequently used links. It runs without a backend and without a separate account. You can optionally sync saved links between Chrome profiles using **Chrome Sync**. The default interface language is English; Persian is available at any time.
 
 ### Features
+
+- **Home / Settings tabs:** manage links on Home; configure language/theme, Chrome Sync, and JSON backup/restore on Settings
 
 - Add, edit, delete, categorize and search links
 - Drag links by the ⠿ handle to reorder them within each category (or use Up/Down arrow keys on the handle)
@@ -41,7 +43,7 @@ AraanCo Link Manager is a **local-first** Chrome extension for storing and organ
 
 1. Sign into Chrome on each device and enable the relevant **Chrome Sync** setting.
 2. Install this extension with the same `manifest.json` public `key` (and hence the same extension ID) on each device.
-3. In each extension popup, enable **Sync with Chrome Sync**.
+3. Open **Settings** in the extension popup and enable **Sync with Chrome Sync**.
 4. Changes to links will sync with Chrome's normal synchronization behavior; they are not necessarily instantaneous.
 
 **Sync only applies to links, not to installing or upgrading the extension.** Sync capacity is limited (roughly 100 KiB total, 8 KiB per item, max 512 items). Language and theme preferences remain device-local. The extension's stable ID is `egchhoacegbnemfiefalngedpfkaepic`.
@@ -70,6 +72,8 @@ Chrome Manifest V3 · JavaScript modules · English and Persian translations · 
 
 ### امکانات
 
+- دو تب **خانه** برای مدیریت لینک‌ها و **تنظیمات** برای زبان، پوسته، همگام‌سازی و پشتیبان‌گیری
+
 - افزودن، ویرایش و حذف لینک‌ها و دسته‌بندی آن‌ها
 - تغییر ترتیب لینک‌های هر دسته با Drag & Drop روی علامت ⠿، همراه با ذخیره و همگام‌سازی ترتیب
 - جست‌وجوی سریع و افزودن تب فعلی مرورگر
@@ -84,7 +88,7 @@ Chrome Manifest V3 · JavaScript modules · English and Persian translations · 
 ۱. از قسمت **Code → Download ZIP** فایل پروژه را دریافت و در پوشه‌ای ثابت Extract کنید.
 ۲. در کروم وارد `chrome://extensions` شوید و **Developer mode** را روشن کنید.
 ۳. روی **Load unpacked** بزنید و پوشه حاوی `manifest.json` را انتخاب کنید.
-۴. برای همگام‌سازی لینک‌ها، Chrome Sync حساب گوگل و گزینه Sync داخل افزونه را در هر دستگاه فعال کنید.
+۴. برای همگام‌سازی لینک‌ها، Chrome Sync حساب گوگل را فعال و در تب **تنظیمات** افزونه گزینه Sync را در هر دستگاه روشن کنید.
 
 **برای آپدیت:** فایل‌های نسخه جدید را در **همان پوشه قبلی** جایگزین و افزونه را Reload کنید؛ از حذف افزونه برای ارتقا خودداری کنید. بهتر است قبل از تغییرات مهم، خروجی JSON بگیرید.
 

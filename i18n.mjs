@@ -7,7 +7,12 @@ export const LANGUAGES = Object.freeze(['en', 'fa']);
 export const MESSAGES = Object.freeze({
   en: {
     languageLabel: 'Language',
-    subtitle: 'Link management · v1.3',
+    subtitle: 'Link management · v1.4',
+    navigationLabel: 'Main navigation',
+    homeTab: 'Home',
+    settingsTab: 'Settings',
+    appearance: 'Appearance',
+    themeLabel: 'Theme',
     themeToggle: 'Toggle light / dark mode',
     newLink: 'New link',
     currentTab: '+ Current tab',
@@ -78,7 +83,12 @@ export const MESSAGES = Object.freeze({
   },
   fa: {
     languageLabel: 'زبان',
-    subtitle: 'مدیریت لینک‌ها · نسخه ۱.۳',
+    subtitle: 'مدیریت لینک‌ها · نسخه ۱.۴',
+    navigationLabel: 'ناوبری اصلی',
+    homeTab: 'خانه',
+    settingsTab: 'تنظیمات',
+    appearance: 'نمایش و زبان',
+    themeLabel: 'پوسته',
     themeToggle: 'تغییر حالت روشن/تاریک',
     newLink: 'لینک جدید',
     currentTab: '+ تب فعلی',

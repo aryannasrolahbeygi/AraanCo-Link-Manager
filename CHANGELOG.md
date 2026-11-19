@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0] - 2026-11-19
+
+- Added dedicated **Home** and **Settings** tabs with localized English and Persian labels.
+- Moved Chrome Sync, JSON backup/restore, language, and theme controls into Settings.
+- Added accessible tab roles and keyboard navigation (including RTL-aware Left/Right arrows).
+- Preserved Chrome extension ID, existing link records, and sync logic without migration.
+
 ## [1.3.0] - 2026-11-19
 
 - Drag links by the grip handle to reorder them within their category.

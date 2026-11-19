@@ -1,4 +1,5 @@
 import {LinkStore, SETTINGS, normalizedUrl} from './link-core.mjs';
+import {initializeTabs} from './tab-navigation.mjs';
 import {
   LANGUAGE_KEY, DEFAULT_LANGUAGE, normalizeLanguage, translate, translateError,
   displayCategory, internalCategory
@@ -23,6 +24,7 @@ let dragState = null; // Drag only by the handle and only within one category.
 const t = (key, params) => translate(language, key, params);
 const errorText = error => translateError(language, error);
 const store = new LinkStore(chrome, render);
+initializeTabs($('mainTabs'));
 
 function applyLanguage(nextLanguage) {
   language = normalizeLanguage(nextLanguage);
